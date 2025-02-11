@@ -23,10 +23,11 @@ check that chainlit was installed correctly by running `chainlit --version`
 
 ### initialize project
 
-Create a `.env` file and store your Openai API key in a variable called `OPENAI_API_KEY`
+Create a `.env` file and store your Openai API key in a variable called `OPENAI_API_KEY` and another one called `HUBSPOT_KEY`
 
 ```sh
-OPENAI_API_KEY=<<the-key>>
+OPENAI_API_KEY=<<openai-key>>
+HUBSPOT_KEY=<<hubspot-key>>
 ```
 
 Then, run the program with:
