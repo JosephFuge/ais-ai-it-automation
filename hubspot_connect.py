@@ -1,5 +1,5 @@
 def hubspot_send_data(data):
-    import os, json, requests
+    import os, requests
     from dotenv import load_dotenv
     from logger import hubspot_log
 
@@ -14,5 +14,5 @@ def hubspot_send_data(data):
         'content-type': 'application/json'
     }
 
-    new_ticket = requests.post(url=url, json=data, headers=header)
-    hubspot_log(f"data sent to hubspot, {new_ticket.text}")
+    new_ticket = requests.post(url=url, json=data, headers=header) # send data to Hubspot Tickets
+    hubspot_log(f"data sent to hubspot, {new_ticket.text}") # log successful request
