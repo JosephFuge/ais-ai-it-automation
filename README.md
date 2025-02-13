@@ -33,7 +33,7 @@ HUBSPOT_KEY=<<hubspot-key>>
 Then, run the program with:
 
 ```sh
-chainlit run app.py -w
+uvicorn app:app --reload
 ```
 
 > [!NOTE]
