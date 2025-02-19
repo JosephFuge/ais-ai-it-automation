@@ -26,7 +26,7 @@ def create_issue(summary,description,priority,impact,urgency):
     auth = HTTPBasicAuth("mrjfob@student.byu.edu", api_key)
     url = 'https://byu-aiscomp-2025.atlassian.net/rest/api/2/issue/'
     raw = requests.post(url=url, headers=headers, auth=auth, json=ticket_data)
-    return raw.text
+    return raw
 
 def get_content(data):
     return data
@@ -82,22 +82,10 @@ completion = client.chat.completions.create(
     tools=tools
 )
 
-tool_call = completion.choices[0].message.tool_calls[0]
-args = json.loads(tool_call.function.arguments)
+if completion.choices[0].message.tool_calls is not None:
+    tool_call = completion.choices[0].message.tool_calls[0]
+    args = json.loads(tool_call.function.arguments)
 
-result = create_issue(args["summary"],args["description"],args["priority"],args["impact"],args["urgency"])
-
-messages.append(completion.choices[0].message)  # append model's function call message
-messages.append({                               # append result message
-    "role": "tool",
-    "tool_call_id": tool_call.id,
-    "content": str(result)
-})
-
-completion_2 = client.chat.completions.create(
-    model="gpt-4o",
-    messages=messages,
-    tools=tools,
-)
-
-print(completion_2.choices[0].message.content)
+    result = create_issue(args["summary"],args["description"],args["priority"],args["impact"],args["urgency"])
+    if result.status_code == 201:
+        print("ticket was created successfully")
