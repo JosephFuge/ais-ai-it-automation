@@ -1,8 +1,6 @@
 from openai import AsyncOpenAI
-from ticket_generator import create_ticket
-from hubspot_connect import hubspot_send_data
-from logger import chainlit_log
 import chainlit as cl
+import subprocess
 
 client = AsyncOpenAI()
 
@@ -52,8 +50,7 @@ def end():
     global ticket_message_history
     # send the message history to ticket_generator.py
     if ticket_message_history != []:
-        chainlit_log(f"sending data to ticket-generator: \n {ticket_message_history}") # log data being successfully sent
-        create_ticket(str(ticket_message_history))
+        subprocess.run(["python", "jira_ticket.py", str(ticket_message_history)])
         ticket_message_history = [] # reset message history for new chats
     
 @cl.on_message
@@ -76,9 +73,3 @@ async def main(message: cl.Message):
     message_history.append({"role": "system", "content": msg.content})
     ticket_message_history.append({"role": "system", "content": msg.content})
     await msg.update()
-
-@cl.on_window_message
-async def window_message(message: str):
-  if message.startswith("Client: "):
-    await cl.Message(content=f"Window message received: {message}").send()
-
