@@ -36,7 +36,7 @@ tools = [
     "type": "function",
     "function": {
         "name": "create_issue",
-        "description": "use messages to create an issue for a Jira ticket",
+        "description": "use messages to create an issue for a Jira ticket.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -72,7 +72,7 @@ tools = [
 }]
 
 messages = [
-    {"role": "developer", "content":"you create a ticket in Jira based on the user content."},
+    {"role": "developer", "content":"You analyze user content use it to create a ticket in an IT ticketing system."},
     {"role": "user", "content": user_content}
     ]
 
@@ -88,4 +88,6 @@ if completion.choices[0].message.tool_calls is not None:
 
     result = create_issue(args["summary"],args["description"],args["priority"],args["impact"],args["urgency"])
     if result.status_code == 201:
-        print("ticket was created successfully")
+        print("JIRA TICKET: ticket was created successfully...")
+    if result.status_code == 401:
+        print("JIRA TICKET: there was a problem creating a ticket...")
