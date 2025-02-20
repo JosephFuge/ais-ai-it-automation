@@ -20,12 +20,15 @@ code {
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: #6A0DAD;
-    color: white;
+    background-color: #FFFFFF;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.sidebar-header {
+    margin-top: 28px;
 }
 
 .sidebar-header h2 {
@@ -54,7 +57,7 @@ code {
 
 .menu a {
     display: block;
-    color: white;
+    color: #00BDF2;
     text-decoration: none;
     padding: 10px;
     border-radius: 5px;
@@ -64,7 +67,7 @@ code {
 
 .menu a.active, .menu a:hover {
     background-color: white;
-    color: #6A0DAD;
+    color: #CC2222;
 }
 
 /* Main Content */
@@ -76,7 +79,7 @@ code {
 
 /* Topbar */
 .topbar {
-    background-color: #6A0DAD;
+    background-color: #00BDF2;
     color: white;
     padding: 20px;
     border-radius: 10px;
@@ -103,6 +106,7 @@ code {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
     margin-top: 20px;
+    align-items: center;
 }
 
 .card {
@@ -125,12 +129,12 @@ code {
 .chart-value {
     font-size: 32px;
     font-weight: bold;
-    color: #6A0DAD;
+    color: #00BDF2;
     text-align: center;
 }
 
 button {
-    background-color: #6A0DAD;
+    background-color: #00BDF2;
     color: white;
     border: none;
     padding: 10px;
@@ -140,7 +144,7 @@ button {
 }
 
 button:hover {
-    background-color: #5A0B8E;
+    background-color: #00ACE1;
 }
 
 .dashboard-cards {
@@ -160,10 +164,10 @@ button:hover {
 }
 
 /* Special styling for different card types */
-.card.engagement {
-    grid-column: 1 / -1; /* Full width */
-    grid-row: 1; /* First row */
-    height: 600px; /* Fixed height for the chart */
+.card.barchart {
+    grid-column: 1 / -1; 
+    grid-row: 1; 
+    height: 600px; 
 }
 
 .card.chainlit {
@@ -174,13 +178,16 @@ button:hover {
 .card.stats {
     grid-column: span 1;
     grid-row: 2;
+    text-align: center;
+    height: 425px;
+
 }
 
 .card.task-list {
-    grid-column: 1 / -1; /* Full width */
-    grid-row: 3; /* Third row */
-    min-height: 400px; /* Minimum height */
-    margin-top: 20px; /* Space above */
+    grid-column: 1 / -1; 
+    grid-row: 3; 
+    min-height: 400px; 
+    margin-top: 20px; 
 }
 
 /* Login Component Styles */

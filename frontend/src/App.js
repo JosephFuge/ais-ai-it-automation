@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
-import Login from "./components/Login";
+import Login from "./components/Auth/Login";
 import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
@@ -9,9 +9,13 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const onLogin = (username, password) => {
-    console.log(`USERNAME: ${username}`);
     setUserInfo(username);
     setIsAuthenticated(true);
+  };
+
+  const onLogout = () => {
+    setUserInfo('');
+    setIsAuthenticated(false);
   };
 
   console.log(`userInfo: ${userInfo}`);
@@ -20,7 +24,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         {isAuthenticated ? (
-          <AuthenticatedRoutes name={userInfo} />
+          <AuthenticatedRoutes name={userInfo} onLogout={onLogout} />
         ) :
           <UnauthenticatedRoutes onLogin={(username, password) => onLogin(username, password)} />}
       </BrowserRouter>
@@ -28,11 +32,11 @@ function App() {
   );
 }
 
-const AuthenticatedRoutes = ({ name }) => {
+const AuthenticatedRoutes = ({ name, onLogout }) => {
   return (
     <Routes>
-      <Route element={<MainLayout userName={name} />}>
-        <Route index element={<AdminDashboard />} />
+      <Route element={<MainLayout userName={name} onLogout={onLogout} />}>
+        <Route index element={<AdminDashboard userName={name} />} />
       </Route>
     </ Routes>
   );
