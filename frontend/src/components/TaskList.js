@@ -73,7 +73,6 @@ const TaskList = () => {
     <div className="task-list-container">
       <h2>System Tasks Management</h2>
 
-      {/* Add Task Form */}
       <form onSubmit={handleAddTask} className="add-task-form">
         <input
           type="text"
@@ -100,13 +99,11 @@ const TaskList = () => {
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
         </select>
-        <button type="submit">Add Task</button>
+        <button class="button" type="submit">Add Task</button>
       </form>
 
-      {/* Error Message */}
       {error && <div className="error-message">{error}</div>}
 
-      {/* Tasks List */}
       {loading ? (
         <div className="loading">Loading tasks...</div>
       ) : (

@@ -16,6 +16,24 @@ conda activate chainlit-project
 pip install -r ./requirements.txt # run with venv activated
 ```
 
+check that chainlit was installed correctly by running `chainlit --version`
+
+### Redis and Celery Setup
+
+1. Start Redis server:
+```sh
+redis-server
+```
+
+2. Start Celery worker in a new terminal:
+```sh
+celery -A celery_config worker --loglevel=info
+```
+3. Start Celery beat for scheduled tasks (optional):
+```sh
+celery -A celery_config beat --loglevel=info
+```
+
 ### initialize project
 
 Create a `.env` file and store your API keys
@@ -41,4 +59,8 @@ npm run start
 
 1. The application runs on FastAPI on the backend and React on the Front end
 
-2. The chatbot behavior is dictated by `chainlit_app.py`. Once a user is done interacting with the bot and the session is interrupted by closing/refreshing the window or starting a new chat, the message history is sent to `jira_ticket.py`, which uses the message history to create a new issue in Jira.
+2. `jira_ticket.py` is chat completions script with functions that use the message history to send a post request to the Jira API and create a new issue.
+
+3. The task system is managed via the React interface. Tasks are stored (for demo purposes) 
+in tasks.json and executed through the Celery workers
+
