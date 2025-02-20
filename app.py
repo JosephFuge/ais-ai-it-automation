@@ -18,7 +18,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8000"],
+    allow_origins=["http://127.0.0.1:8000", "http://127.0.0.1:3000", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -82,6 +82,7 @@ def save_tasks(tasks):
 @app.get("/tasks")
 async def get_tasks():
     try:
+        print("RETURNING TASKS")
         tasks = load_tasks()
         return JSONResponse(tasks)
     except Exception as e:
