@@ -111,6 +111,7 @@ const TaskList = () => {
           {tasks.map((task) => (
             <div key={task.id} className="task-card">
               <h3>{task.task_type}</h3>
+              <p className="schedule">Id: {task.id}</p>
               <p className="schedule">Schedule: {task.schedule}</p>
               <div className="task-actions">
                 <button
