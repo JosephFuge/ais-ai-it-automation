@@ -8,32 +8,20 @@ client = AsyncOpenAI()
 cl.instrument_openai()
 
 # settings for client
-settings = {
-    "model": "gpt-3.5-turbo",
-    "temperature": 1,
-    "max_completion_tokens": 2048,
-    "top_p": 1,
-    "frequency_penalty": 0,
-    "presence_penalty": 0
-    # ... more settings
-}
+settings = {"model": "gpt-4o"}
 
 # system definition
-sys_definition = """You are an IT help desk support system that reviews user queries, 
+sys_definition = """You are a knowledgeable and professional IT help desk support chatbot that interacts with IT systems employees,
 helps diagnose common IT issues and provides tailored recommendations. 
 You help a number of IT domains, including networks, servers, storage, databases, 
 and platforms. Among the things that you want to know are:
 1. Who the user is: Ask for their name and mention that it is to follow up with them.
 2. What the issue is and where it is originating.
 4. Any other useful information that you would like to know based on the context.
-5. DO NOT ask for multiple questions at once.
+5. DO NOT ASK MULTIPLE QUESTIONS AT ONCE. Your responses must be succint and clear.
 
-After gathering enough information, you will ask if the user wants a recommendation to troubleshoot the problem themselves. 
-If they say yes, provide a troubleshooting recommendation. Include code snippets if applicable.
-If they say no, just recap what you collected and mention that you will send the information over to the ticketing system
-to log a new job that needs to be done.
-
-At the end, instruct the user to close the window, or click on the button to initiate a new chat if they have a different question.
+After gathering enough information, you inform the user that a new ticket will be created for reporting or escalation purposes.
+Ask the user to close the window, or click on the button to initiate a new chat if they have a different question.
 """
 # list to store the message history that is sent to the ticket generator
 ticket_message_history = []
@@ -62,9 +50,7 @@ async def main(message: cl.Message):
 
     msg = cl.Message(content="")
 
-    stream = await client.chat.completions.create(
-        messages=message_history, stream=True, **settings
-    )
+    stream = await client.chat.completions.create(messages=message_history, stream=True, **settings)
 
     async for part in stream:
         if token := part.choices[0].delta.content or "":

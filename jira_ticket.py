@@ -12,7 +12,7 @@ client = OpenAI()
 def create_issue(summary,description,priority,impact,urgency):
     ticket_data = {
         "fields": {
-            "project": {"id": "10001"},
+            "project": {"id": "10000"},
             "summary": summary,
             "description": description,
             "issuetype":{"id": "10001"},
@@ -23,20 +23,17 @@ def create_issue(summary,description,priority,impact,urgency):
     }
     api_key=os.environ['JIRA_API_KEY']
     headers={"content-type": "application/json"}
-    auth = HTTPBasicAuth("mrjfob@student.byu.edu", api_key)
-    url = 'https://byu-aiscomp-2025.atlassian.net/rest/api/2/issue/'
+    auth = HTTPBasicAuth("jfob.mail@gmail.com", api_key)
+    url = 'https://it-automation-challenge.atlassian.net/rest/api/2/issue/'
     raw = requests.post(url=url, headers=headers, auth=auth, json=ticket_data)
     return raw
-
-def get_content(data):
-    return data
 
 tools = [
 {
     "type": "function",
     "function": {
         "name": "create_issue",
-        "description": "use messages to create an issue for a Jira ticket",
+        "description": "use messages to create an issue for a Jira ticket.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -51,7 +48,7 @@ tools = [
                 "priority":{
                     "type": "string",
                     "enum": ["1", "2", "3", "4", "5"],
-                    "description": "a number from 1 to 5, with 1 being highese priority to 5 being lowest priority"
+                    "description": "a number from 1 to 5, with 1 being highest priority to 5 being lowest priority"
                 },
                 "impact":{
                     "type": "string",
@@ -72,7 +69,7 @@ tools = [
 }]
 
 messages = [
-    {"role": "developer", "content":"you create a ticket in Jira based on the user content."},
+    {"role": "developer", "content":"You analyze user content use it to create a ticket in an IT ticketing system."},
     {"role": "user", "content": user_content}
     ]
 
@@ -88,4 +85,6 @@ if completion.choices[0].message.tool_calls is not None:
 
     result = create_issue(args["summary"],args["description"],args["priority"],args["impact"],args["urgency"])
     if result.status_code == 201:
-        print("ticket was created successfully")
+        print("JIRA TICKET: ticket was created successfully...")
+    if result.status_code == 401:
+        print("JIRA TICKET: there was a problem creating a ticket...")
