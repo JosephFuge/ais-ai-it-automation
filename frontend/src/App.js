@@ -1,43 +1,7 @@
 import React from "react";
 import TaskList from "./components/TaskList";
 import Sidebar from "./components/Sidebar";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
-/*ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);*/
-
-
-const data = {
-  labels: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
-  datasets: [
-    {
-      label: "Engagement",
-      data: [6, 12, 18, 30, 24, 18, 10],
-      borderColor: "#6A0DAD",
-      borderWidth: 2,
-      fill: false,
-    },
-  ],
-};
-
-const options = { responsive: true };
+import TaskUrgencyChart from "./components/TaskUrgencyChart";
 
 function App() {
   return (
@@ -59,7 +23,7 @@ function App() {
           <section class="dashboard-cards">
             <div class="card engagement">
               <h3>Engagement</h3>
-              {/*<Line options={options} data={data} />*/}
+              <TaskUrgencyChart />
             </div>
             <div class="card chainlit">
               <iframe
