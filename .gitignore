@@ -1,9 +1,8 @@
 .env
 __pycache__/
-.chainlit/
 .files/
 logs.txt
-
+.chainlit/translations/
 .venv
 instructions.txt
 routine.md

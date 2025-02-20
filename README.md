@@ -2,8 +2,6 @@
 
 ### TODO
 
-- [x] Get documentation to interact with Hubspot API and document here, specifically to use the [tickets object](https://developers.hubspot.com/docs/reference/api/crm/objects/tickets).
-- [x] Learn about using the [actions](https://docs.chainlit.io/concepts/action) feature in Chainlit and assess if that will help us send POST request to Hubspot (as of now, we are not implementing actions)
 - [ ] Build the interface for chatbot
 - [ ] others...
 
@@ -27,7 +25,7 @@ Create a `.env` file and store your Openai API key in a variable called `OPENAI_
 
 ```sh
 OPENAI_API_KEY=<<openai-key>>
-HUBSPOT_KEY=<<hubspot-key>>
+JIRA_API_KEY=<<jira-key>>
 ```
 
 Then, run the program with:
@@ -38,14 +36,11 @@ uvicorn app:app --reload
 
 > [!NOTE]
 > The app runs by default on port 8000. If the port is taken, run `chainlit run app.py --port 3000 -w` or try a different port.
+> UPDATE: Need to figure out how to change ports with uvicorn.
 
 
 ### how the app works
 
-1. The chainlit interface and behavior is dictated by `app.py`. Once a user is done interacting with the bot and the session is interrupted by closing/refreshing the window or starting a new chat, the message history is sent to `ticket_generator.py`.
+1. The chainlit behavior is dictated by `chainlit_app.py`. Once a user is done interacting with the bot and the session is interrupted by closing/refreshing the window or starting a new chat, the message history is sent to `jira_ticket.py`.
 
-2. The `ticket_generator.py` file receives the user history as input and passes it to another chat completions object, which summarizes the conversation and formats it as a json object which we will send to the Hubspot API.
-
-3. Once the response is cleaned, summarized, and formatted appropriately, it is sent to `hubspot_connect.py` which sends the data in a request to post it to the Hubspot Tickets app via the API.
-
-4. `logger.py` is just a set of functions that log some of the behavior of the three different steps from above. Mostly just used for debugging, might deprecate or improve later on...
+2. `jira_ticket.py` is chat completions script with functions that use the message history to send a post request to the Jira API and create a new issue.
