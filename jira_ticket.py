@@ -28,9 +28,6 @@ def create_issue(summary,description,priority,impact,urgency):
     raw = requests.post(url=url, headers=headers, auth=auth, json=ticket_data)
     return raw
 
-def get_content(data):
-    return data
-
 tools = [
 {
     "type": "function",
@@ -51,7 +48,7 @@ tools = [
                 "priority":{
                     "type": "string",
                     "enum": ["1", "2", "3", "4", "5"],
-                    "description": "a number from 1 to 5, with 1 being highese priority to 5 being lowest priority"
+                    "description": "a number from 1 to 5, with 1 being highest priority to 5 being lowest priority"
                 },
                 "impact":{
                     "type": "string",

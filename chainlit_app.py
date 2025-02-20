@@ -8,15 +8,7 @@ client = AsyncOpenAI()
 cl.instrument_openai()
 
 # settings for client
-settings = {
-    "model": "gpt-3.5-turbo",
-    "temperature": 1,
-    "max_completion_tokens": 2048,
-    "top_p": 1,
-    "frequency_penalty": 0,
-    "presence_penalty": 0
-    # ... more settings
-}
+settings = {"model": "gpt-4o"}
 
 # system definition
 sys_definition = """You are a knowledgeable and professional IT help desk support chatbot that interacts with IT systems employees,
@@ -58,9 +50,7 @@ async def main(message: cl.Message):
 
     msg = cl.Message(content="")
 
-    stream = await client.chat.completions.create(
-        messages=message_history, stream=True, **settings
-    )
+    stream = await client.chat.completions.create(messages=message_history, stream=True, **settings)
 
     async for part in stream:
         if token := part.choices[0].delta.content or "":
