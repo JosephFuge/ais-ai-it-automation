@@ -1,60 +1,52 @@
-import React from "react";
-import TaskList from "./components/TaskList";
-import Sidebar from "./components/Sidebar";
-import TaskUrgencyChart from "./components/TaskUrgencyChart";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
+import Login from "./components/Login";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
+  const [userInfo, setUserInfo] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const onLogin = (username, password) => {
+    console.log(`USERNAME: ${username}`);
+    setUserInfo(username);
+    setIsAuthenticated(true);
+  };
+
+  console.log(`userInfo: ${userInfo}`);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Task Management Dashboard</h1>
-      </header>
-      <div className="dashboard">
-        <Sidebar />
-        <main className="content">
-          <header class="topbar">
-            <h2>Morning, Ryan!</h2>
-            <p>Have a nice day!</p>
-            <div class="user-info">
-              <span>Ryan Snow</span>
-            </div>
-          </header>
-
-          <section class="dashboard-cards">
-            <div class="card engagement">
-              <h3>Engagement</h3>
-              <TaskUrgencyChart />
-            </div>
-            <div class="card chainlit">
-              <iframe
-                title="chatbot"
-                src="http://127.0.0.1:8000/chainlit"
-                id="the-frame"
-                data-cy="the-frame"
-                width="100%"
-                height="500px"
-              ></iframe>
-            </div>
-            <div class="card stats">
-              <h3>Congratulations!</h3>
-              <div class="chart-value">23</div>
-              <p>GitHub issues closed this week.</p>
-            </div>
-            <div class="card stats">
-              <h3>Project at Risk</h3>
-              <p>Website Redesign</p>
-              <p>8 Days Delay</p>
-            </div>
-            <div class="card task-list">
-              <TaskList />
-            </div>
-          </section>
-        </main>
-        <script>
-        </script>
-      </div>
+      <BrowserRouter>
+        {isAuthenticated ? (
+          <AuthenticatedRoutes name={userInfo} />
+        ) :
+          <UnauthenticatedRoutes onLogin={(username, password) => onLogin(username, password)} />}
+      </BrowserRouter>
     </div>
   );
 }
+
+const AuthenticatedRoutes = ({ name }) => {
+  return (
+    <Routes>
+      <Route element={<MainLayout userName={name} />}>
+        <Route index element={<AdminDashboard />} />
+      </Route>
+    </ Routes>
+  );
+};
+
+const UnauthenticatedRoutes = ({ onLogin }) => {
+  const location = useLocation();
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login onLogin={(username, password) => onLogin(username, password)} />} />
+      <Route path="*" element={<Login onLogin={(username, password) => onLogin(username, password)} originalUrl={location.pathname} />} />
+    </Routes>
+  )
+};
 
 export default App;

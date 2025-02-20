@@ -1,13 +1,14 @@
 
-export default function Sidebar() {
+export default function Sidebar({ userName }) {
 	return (
 		<aside class="sidebar">
 			<div className="sidebar-header">
-				<h2>🚀 purpose</h2>
+				<img src="https://seo.nlx.org/southernco/img/logo.svg" alt="SouthernCompany Logo" />
+				<h2>Southern Company</h2>
 			</div>
 			<div className="user-profile">
-				<h3>Heather Parker</h3>
-				<p>Web Architect</p>
+				<h3>{userName ?? 'Ryan Snow'}</h3>
+				<p>IT Systems Administrator</p>
 				<button className="balance-btn">$2,300</button>
 			</div>
 			<nav className="menu">

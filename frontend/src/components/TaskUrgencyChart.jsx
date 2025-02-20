@@ -17,7 +17,7 @@ export default function TaskUrgencyChart() {
 		labels: ['URGENT', 'HIGH', 'MEDIUM', 'LOW'],
 		datasets: [
 			{
-				label: 'Task Priority',
+				label: 'Ticket Priority',
 				data: [10, 7, 5, 2],
 				backgroundColor: ['#FF0000', '#FF8000', '#FFD700', '#FFFF00'],
 				borderColor: ['#CC0000', '#CC6600', '#CCAD00', '#CCCC00'],
@@ -30,7 +30,7 @@ export default function TaskUrgencyChart() {
 		responsive: true,
 		plugins: {
 			legend: { position: 'top' },
-			title: { display: true, text: 'Task Priorities' },
+			title: { display: true, text: 'Ticket Priorities' },
 		},
 		scales: {
 			y: { beginAtZero: true },
