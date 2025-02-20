@@ -5,10 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from jinja2 import Environment, FileSystemLoader
 from chainlit.utils import mount_chainlit
 from celery import Celery
+from requests.auth import HTTPBasicAuth
 import time
 import json
 import logging
-import os
+import os, requests
 
 app = FastAPI()
 
@@ -33,6 +34,33 @@ CACHE_BUST = str(int(time.time()))
 async def home(request: Request):
     template = templates.get_template("index.html")
     return HTMLResponse(template.render(request=request, cache_bust=CACHE_BUST))
+
+def fetch_issues():
+    api_key=os.environ['JIRA_API_KEY']
+    headers={"content-type": "application/json"}
+    auth = HTTPBasicAuth("jfob.mail@gmail.com", api_key)
+    url = 'https://it-automation-challenge.atlassian.net/rest/api/3/search/jql'
+    raw = requests.get(url=url, headers=headers, auth=auth, params={'jql': 'project = SC', 'fields': ['*all']})
+
+    response = raw.json()
+    # print(json.dumps(response))
+    issues = response['issues']
+
+    urgencies = {'Critical': 0, 'High': 0, 'Medium': 0, 'Low': 0}
+    
+    for issue in issues:
+        urgency = str(issue['fields']['customfield_10042']['value'])
+        urgencies[urgency] = urgencies.get(urgency, 0) + 1
+        print(urgency)
+        
+    print(urgencies['Critical'])
+    return urgencies
+
+@app.get("/tickets", response_class=JSONResponse)
+async def fetch_tickets(request: Request):
+    print('TICKETS HIT')
+    tickets = fetch_issues()
+    return JSONResponse(content=tickets)
 
 mount_chainlit(app=app, target="chainlit_app.py", path="/chainlit")
 

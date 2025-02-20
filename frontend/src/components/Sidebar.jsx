@@ -12,11 +12,7 @@ export default function Sidebar({ userName, onLogout }) {
 			</div>
 			<nav className="menu">
 				<a href="#" class="active">🏠 Home</a>
-				<a href="#">📂 Projects</a>
 				<a href="https://it-automation-challenge.atlassian.net/jira/servicedesk/projects/SC/queues">✅ Tickets</a>
-				<a href="#">📌 Kanban</a>
-				<a href="#">👥 Users</a>
-				<a href="#">🔧 Profile</a>
 			</nav>
 		</aside >
 	);

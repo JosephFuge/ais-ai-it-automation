@@ -11,7 +11,7 @@ export default function AdminDashboard({ userName }) {
 			</header>
 
 			<section className="dashboard-cards">
-				<div className="card barchart">
+				<div style={{ 'paddingBottom': '60px' }} className="card barchart">
 					<h3>Outstanding IT Tickets</h3>
 					<TaskUrgencyChart />
 				</div>

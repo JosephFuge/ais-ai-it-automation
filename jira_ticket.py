@@ -28,6 +28,8 @@ def create_issue(summary,description,priority,impact,urgency):
     raw = requests.post(url=url, headers=headers, auth=auth, json=ticket_data)
     return raw
 
+
+
 tools = [
 {
     "type": "function",
