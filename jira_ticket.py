@@ -12,7 +12,7 @@ client = OpenAI()
 def create_issue(summary,description,priority,impact,urgency):
     ticket_data = {
         "fields": {
-            "project": {"id": "10001"},
+            "project": {"id": "10000"},
             "summary": summary,
             "description": description,
             "issuetype":{"id": "10001"},
@@ -23,8 +23,8 @@ def create_issue(summary,description,priority,impact,urgency):
     }
     api_key=os.environ['JIRA_API_KEY']
     headers={"content-type": "application/json"}
-    auth = HTTPBasicAuth("mrjfob@student.byu.edu", api_key)
-    url = 'https://byu-aiscomp-2025.atlassian.net/rest/api/2/issue/'
+    auth = HTTPBasicAuth("jfob.mail@gmail.com", api_key)
+    url = 'https://it-automation-challenge.atlassian.net/rest/api/2/issue/'
     raw = requests.post(url=url, headers=headers, auth=auth, json=ticket_data)
     return raw
 
