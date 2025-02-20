@@ -1,91 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Systems Admin Dashboard</title>
-    <link rel="stylesheet" href="/static/css/styles.css" >
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for graphs -->
-</head>
-<body>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <!-- Update React static file paths with exact filenames from your build directory -->
+    <link rel="stylesheet" href="/static/react/static/css/main.2c8f4c85.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="/static/react/static/js/main.5bd73f56.js"></script>
+    <style>
+      .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 20px;
+        padding: 20px;
+      }
+
+      /* Adjust card sizes */
+      .card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Special styling for different card types */
+      .card.engagement {
+        grid-column: 1 / -1; /* Full width */
+        grid-row: 1; /* First row */
+        height: 600px; /* Fixed height for the chart */
+      }
+
+      .card.chainlit {
+        grid-column: span 2;
+        grid-row: 2;
+      }
+
+      .card.stats {
+        grid-column: span 1;
+        grid-row: 2;
+      }
+
+      .card.task-list {
+        grid-column: 1 / -1; /* Full width */
+        grid-row: 3; /* Third row */
+        min-height: 400px; /* Minimum height */
+        margin-top: 20px; /* Space above */
+      }
+    </style>
+  </head>
+  <body>
     <div class="dashboard">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>🚀 purpose</h2>
-            </div>
-            <div class="user-profile">
-                    <!-- <img src="profile.jpg" alt="User Image"> -->
-                <h3>Heather Parker</h3>
-                <p>Web Architect</p>
-                <button class="balance-btn">$2,300</button>
-            </div>
-            <nav class="menu">
-                <a href="#" class="active">🏠 Home</a>
-                <a href="#">📂 Projects</a>
-                <a href="#">✅ Tickets</a>
-                <a href="#">📌 Kanban</a>
-                <a href="#">👥 Users</a>
-                <a href="#">🔧 Profile</a>
-            </nav>
-        </aside>
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>🚀 purpose</h2>
+        </div>
+        <div class="user-profile">
+          <!-- <img src="profile.jpg" alt="User Image"> -->
+          <h3>Heather Parker</h3>
+          <p>Web Architect</p>
+          <button class="balance-btn">$2,300</button>
+        </div>
+        <nav class="menu">
+          <a href="#" class="active">🏠 Home</a>
+          <a href="#">📂 Projects</a>
+          <a href="#">✅ Tickets</a>
+          <a href="#">📌 Kanban</a>
+          <a href="#">👥 Users</a>
+          <a href="#">🔧 Profile</a>
+        </nav>
+      </aside>
 
-        <!-- Main Content -->
-        <main class="content">
-            <header class="topbar">
-                <h2>Morning, Ryan!</h2>
-                <p>Have a nice day!</p>
-                <div class="user-info">
-                    <span>Ryan Snow</span>
-                        <!-- <img src="user.jpg" alt="User Image"> -->
-                </div>
-            </header>
+      <!-- Main Content -->
+      <main class="content">
+        <header class="topbar">
+          <h2>Morning, Ryan!</h2>
+          <p>Have a nice day!</p>
+          <div class="user-info">
+            <span>Ryan Snow</span>
+            <!-- <img src="user.jpg" alt="User Image"> -->
+          </div>
+        </header>
 
-            <!-- Dashboard Cards -->
-            <section class="dashboard-cards">
-                <div class="card large">
-                    <h3>Engagement</h3>
-                    <canvas id="engagementChart"></canvas>
-                </div>
-                <div class="card large">
-                        <iframe src="http://127.0.0.1:8000/chainlit" id="the-frame" data-cy="the-frame" width="100%" height="500px"></iframe>
-                </div>
-                <div class="card">
-                    <h3>Congratulations!</h3>
-                    <div class="chart-value">23</div>
-                    <p>GitHub issues closed this week.</p>
-                </div>
-                <div class="card dark">
-                    <h3>Project at Risk</h3>
-                    <p>Website Redesign</p>
-                    <p>8 Days Delay</p>
-                </div>
-            </section>
-        </main>
+        <!-- Dashboard Cards -->
+        <section class="dashboard-cards">
+          <div class="card engagement">
+            <h3>Engagement</h3>
+            <canvas id="engagementChart"></canvas>
+          </div>
+          <div class="card chainlit">
+            <iframe
+              src="http://127.0.0.1:8000/chainlit"
+              id="the-frame"
+              data-cy="the-frame"
+              width="100%"
+              height="500px"
+            ></iframe>
+          </div>
+          <div class="card stats">
+            <h3>Congratulations!</h3>
+            <div class="chart-value">23</div>
+            <p>GitHub issues closed this week.</p>
+          </div>
+          <div class="card stats">
+            <h3>Project at Risk</h3>
+            <p>Website Redesign</p>
+            <p>8 Days Delay</p>
+          </div>
+          <!-- Task List card -->
+          <div class="card task-list">
+            <div id="react-root"></div>
+          </div>
+        </section>
+      </main>
     </div>
 
     <script>
-        // Chart.js Example for Engagement Graph
-        var ctx = document.getElementById('engagementChart').getContext('2d');
-        var engagementChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                datasets: [{
-                    label: 'Engagement',
-                    data: [6, 12, 18, 30, 24, 18, 10],
-                    borderColor: '#6A0DAD',
-                    borderWidth: 2,
-                    fill: false,
-                }]
+      // Chart.js Example for Engagement Graph
+      var ctx = document.getElementById("engagementChart").getContext("2d");
+      var engagementChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+          datasets: [
+            {
+              label: "Engagement",
+              data: [6, 12, 18, 30, 24, 18, 10],
+              borderColor: "#6A0DAD",
+              borderWidth: 2,
+              fill: false,
             },
-            options: { responsive: true }
+          ],
+        },
+        options: { responsive: true },
+      });
+
+      // Wait for iframe to load before accessing contentWindow
+      const iframe = document.getElementById("the-frame");
+      if (iframe) {
+        iframe.addEventListener("load", function () {
+          this.contentWindow.postMessage(
+            "Client: Hello from parent window",
+            "*"
+          );
         });
-
-        const iframe = document.getElementById('the-iframe');
-        iframe.contentWindow.postMessage('Client: Hello from parent window', '*');
-
+      }
     </script>
-</body>
+  </body>
 </html>
-
