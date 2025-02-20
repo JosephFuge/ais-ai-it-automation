@@ -1,13 +1,185 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Dashboard Layout */
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #6A0DAD;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-header h2 {
+    margin-bottom: 20px;
+}
+
+.user-profile {
+    text-align: center;
+}
+
+.user-profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.balance-btn {
+    background-color: white;
+    color: #6A0DAD;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.menu a.active, .menu a:hover {
+    background-color: white;
+    color: #6A0DAD;
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Topbar */
+.topbar {
+    background-color: #6A0DAD;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card.large {
+    grid-column: span 2;
+}
+
+.card.dark {
+    background-color: #222;
+    color: white;
+}
+
+/* Chart Styling */
+.chart-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #6A0DAD;
+    text-align: center;
+}
+
+button {
+    background-color: #6A0DAD;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5A0B8E;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Adjust card sizes */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Special styling for different card types */
+.card.engagement {
+    grid-column: 1 / -1; /* Full width */
+    grid-row: 1; /* First row */
+    height: 600px; /* Fixed height for the chart */
+}
+
+.card.chainlit {
+    grid-column: span 2;
+    grid-row: 2;
+}
+
+.card.stats {
+    grid-column: span 1;
+    grid-row: 2;
+}
+
+.card.task-list {
+    grid-column: 1 / -1; /* Full width */
+    grid-row: 3; /* Third row */
+    min-height: 400px; /* Minimum height */
+    margin-top: 20px; /* Space above */
+}
+

@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import TaskList from "./components/TaskList";
 import reportWebVitals from "./reportWebVitals";
+import App from "./App";
 
+console.log('TEST THIS')
 const root = ReactDOM.createRoot(document.getElementById("react-root"));
 root.render(
   <React.StrictMode>
-    <TaskList />
+    <App />
   </React.StrictMode>
 );
 
