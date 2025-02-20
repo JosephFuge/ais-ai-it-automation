@@ -39,6 +39,6 @@ npm run start
 
 ### how the app works
 
-1. The chatbot behavior is dictated by `chainlit_app.py`. Once a user is done interacting with the bot and the session is interrupted by closing/refreshing the window or starting a new chat, the message history is sent to `jira_ticket.py`.
+1. The application runs on FastAPI on the backend and React on the Front end
 
-2. `jira_ticket.py` is chat completions script with functions that use the message history to create a new issue in Jira.
+2. The chatbot behavior is dictated by `chainlit_app.py`. Once a user is done interacting with the bot and the session is interrupted by closing/refreshing the window or starting a new chat, the message history is sent to `jira_ticket.py`, which uses the message history to create a new issue in Jira.
