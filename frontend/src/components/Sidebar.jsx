@@ -1,7 +1,7 @@
 
 export default function Sidebar({ userName, onLogout }) {
 	return (
-		<aside class="sidebar">
+		<aside className="sidebar">
 			<div className="sidebar-header">
 				<img src="https://seo.nlx.org/southernco/img/logo.svg" alt="SouthernCompany Logo" />
 			</div>
@@ -11,7 +11,7 @@ export default function Sidebar({ userName, onLogout }) {
 				<button onClick={() => onLogout()} className="button">Log Out</button>
 			</div>
 			<nav className="menu">
-				<a href="#" class="active">🏠 Home</a>
+				<a href="#" className="active">🏠 Home</a>
 				<a href="https://it-automation-challenge.atlassian.net/jira/servicedesk/projects/SC/queues">✅ Tickets</a>
 			</nav>
 		</aside >

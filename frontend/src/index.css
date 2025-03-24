@@ -103,53 +103,7 @@ code {
 /* Dashboard Cards */
 .dashboard-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-    align-items: center;
-}
-
-.card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card.large {
-    grid-column: span 2;
-}
-
-.card.dark {
-    background-color: #222;
-    color: white;
-}
-
-/* Chart Styling */
-.chart-value {
-    font-size: 32px;
-    font-weight: bold;
-    color: #00BDF2;
-    text-align: center;
-}
-
-button {
-    background-color: #00BDF2;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    width: 100%;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #00ACE1;
-}
-
-.dashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: minmax(100px, auto);
     gap: 20px;
     padding: 20px;
@@ -165,9 +119,9 @@ button:hover {
 
 /* Special styling for different card types */
 .card.barchart {
-    grid-column: 1 / -1; 
-    grid-row: 1; 
-    height: 600px; 
+    height: 400px; 
+    display: flex;
+    flex-direction: column;
 }
 
 .card.chainlit {
@@ -180,7 +134,6 @@ button:hover {
     grid-row: 2;
     text-align: center;
     height: 425px;
-
 }
 
 .card.task-list {

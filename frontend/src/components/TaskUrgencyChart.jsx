@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
 	Chart as ChartJS,
@@ -9,26 +9,18 @@ import {
 	Tooltip,
 	Legend,
 } from 'chart.js';
-import axios from "axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function TaskUrgencyChart() {
-	const [urgencyCounts, setUrgencyCounts] = useState([0, 0, 0, 0]);
+export default function TaskUrgencyChart({ data, onRefresh }) {
+	const urgencyCounts = [
+		data.urgencies['Critical'] || 0,
+		data.urgencies['High'] || 0,
+		data.urgencies['Medium'] || 0,
+		data.urgencies['Low'] || 0
+	];
 
-	async function getTicketUrgencies() {
-		const response = await axios.get("http://127.0.0.1:8000/tickets");
-		const urgencies = response.data;
-		setUrgencyCounts([urgencies['Critical'], urgencies['High'], urgencies['Medium'], urgencies['Low']]);
-	}
-
-	useEffect(() => {
-		console.log('RUNNING');
-		getTicketUrgencies();
-	}, []);
-
-
-	const data = {
+	const chartData = {
 		labels: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
 		datasets: [
 			{
@@ -43,6 +35,7 @@ export default function TaskUrgencyChart() {
 
 	const options = {
 		responsive: true,
+		maintainAspectRatio: false,
 		plugins: {
 			legend: { position: 'top' },
 			title: { display: true, text: 'Ticket Priorities' },
@@ -52,8 +45,22 @@ export default function TaskUrgencyChart() {
 		},
 	};
 
-	return (<div style={{ 'justify-items': 'center' }}>
-		<Bar data={data} options={options} />
-		<button style={{ 'width': '150px', 'marginTop': '16px' }} type="action" onClick={getTicketUrgencies}>Refresh</button>
-	</div>);
+	return (
+		<div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+			<div style={{ flex: 1, position: 'relative' }}>
+				<Bar data={chartData} options={options} />
+			</div>
+			<button 
+				style={{ 
+					width: '150px', 
+					marginTop: '16px',
+					alignSelf: 'center'
+				}} 
+				type="action" 
+				onClick={onRefresh}
+			>
+				Refresh
+			</button>
+		</div>
+	);
 }

@@ -43,18 +43,42 @@ def fetch_issues():
     raw = requests.get(url=url, headers=headers, auth=auth, params={'jql': 'project = SC', 'fields': ['*all']})
 
     response = raw.json()
-    # print(json.dumps(response))
     issues = response['issues']
 
     urgencies = {'Critical': 0, 'High': 0, 'Medium': 0, 'Low': 0}
+    priorities = {'Highest': 0, 'High': 0, 'Medium': 0, 'Low': 0}
+    impacts = {'Enterprise': 0, 'Department': 0, 'Team': 0, 'Individual': 0}
     
     for issue in issues:
-        urgency = str(issue['fields']['customfield_10042']['value'])
-        urgencies[urgency] = urgencies.get(urgency, 0) + 1
-        print(urgency)
+        # Count urgencies
+        try:
+            urgency = str(issue['fields']['customfield_10042']['value'])
+            urgencies[urgency] = urgencies.get(urgency, 0) + 1
+        except (KeyError, TypeError):
+            # If urgency field is missing or null, count as 'Medium'
+            urgencies['Medium'] += 1
         
-    print(urgencies['Critical'])
-    return urgencies
+        # Count priorities
+        try:
+            priority = str(issue['fields']['priority']['name'])
+            priorities[priority] = priorities.get(priority, 0) + 1
+        except (KeyError, TypeError):
+            # If priority field is missing or null, count as 'Medium'
+            priorities['Medium'] += 1
+        
+        # Count impacts
+        try:
+            impact = str(issue['fields']['customfield_10004']['value'])
+            impacts[impact] = impacts.get(impact, 0) + 1
+        except (KeyError, TypeError):
+            # If impact field is missing or null, count as 'Team'
+            impacts['Team'] += 1
+        
+    return {
+        'urgencies': urgencies,
+        'priorities': priorities,
+        'impacts': impacts
+    }
 
 @app.get("/tickets", response_class=JSONResponse)
 async def fetch_tickets(request: Request):
