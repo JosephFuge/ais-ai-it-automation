@@ -46,7 +46,15 @@ export default function TaskStatusChart({ data, onRefresh }) {
 
     const options = {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: false, // Important for controlling chart size
+        layout: {
+            padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+            }
+        },
         plugins: {
             legend: { position: 'top' },
             title: { display: true, text: 'Task Status Over Time' },
@@ -69,8 +77,19 @@ export default function TaskStatusChart({ data, onRefresh }) {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <div style={{ flex: 1, position: 'relative' }}>
+        <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%', 
+            width: '100%',
+            overflow: 'hidden' 
+        }}>
+            <div style={{ 
+                flex: 1, 
+                position: 'relative', 
+                width: '100%',
+                minHeight: 0 // Ensures the chart can shrink
+            }}>
                 <Line data={chartData} options={options} />
             </div>
             <button 
@@ -79,7 +98,7 @@ export default function TaskStatusChart({ data, onRefresh }) {
                     marginTop: '16px',
                     alignSelf: 'center'
                 }} 
-                type="action" 
+                type="button" 
                 onClick={onRefresh}
             >
                 Refresh

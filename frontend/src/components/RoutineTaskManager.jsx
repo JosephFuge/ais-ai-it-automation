@@ -1,46 +1,46 @@
 import React, { useState, useEffect } from "react";
 import TaskList from "./TaskList";
 import TaskStatusChart from "./Charts/TaskStatusChart";
-import axios from "axios";
 
 export default function RoutineTaskManager() {
     const [taskStatusData, setTaskStatusData] = useState({
-        running: [0, 0, 0, 0, 0],
-        failing: [0, 0, 0, 0, 0]
+        running: [10, 12, 11, 13, 12],
+        failing: [1, 2, 1, 3, 2]
     });
 
-    async function fetchTaskStatusData() {
-        try {
-            // In a real application, this would come from your backend
-            // For now, we'll generate some sample data
-            const runningTasks = Math.floor(Math.random() * 10) + 5; // 5-15 tasks
-            const failingTasks = Math.floor(Math.random() * 3); // 0-2 failing tasks
-            
-            setTaskStatusData({
+    function simulateTaskStatusUpdate() {
+        setTaskStatusData(prevData => {
+            // Create a small variation in the data
+            const newRunningTasks = prevData.running.map(value => {
+                // Randomly adjust by -1, 0, or 1
+                const adjustment = Math.floor(Math.random() * 3) - 1;
+                return Math.max(0, value + adjustment);
+            });
+
+            const newFailingTasks = prevData.failing.map(value => {
+                // Randomly adjust by -1, 0, or 1
+                const adjustment = Math.floor(Math.random() * 3) - 1;
+                return Math.max(0, value + adjustment);
+            });
+
+            return {
                 running: [
-                    runningTasks - 2,
-                    runningTasks - 1,
-                    runningTasks,
-                    runningTasks + 1,
-                    runningTasks
+                    ...newRunningTasks.slice(1),
+                    newRunningTasks[newRunningTasks.length - 1]
                 ],
                 failing: [
-                    failingTasks,
-                    failingTasks + 1,
-                    failingTasks,
-                    failingTasks + 1,
-                    failingTasks
+                    ...newFailingTasks.slice(1),
+                    newFailingTasks[newFailingTasks.length - 1]
                 ]
-            });
-        } catch (error) {
-            console.error("Error fetching task status data:", error);
-        }
+            };
+        });
     }
 
     useEffect(() => {
-        fetchTaskStatusData();
-        // Refresh data every 5 minutes
-        const interval = setInterval(fetchTaskStatusData, 5 * 60 * 1000);
+        // Set up an interval to update the chart every 3 seconds
+        const interval = setInterval(simulateTaskStatusUpdate, 3000);
+
+        // Clean up the interval when the component unmounts
         return () => clearInterval(interval);
     }, []);
 
@@ -49,10 +49,13 @@ export default function RoutineTaskManager() {
             <header className="topbar">
                 <h2>Routine Task Management</h2>
             </header>
-            <section className="dashboard-cards">
-                <div style={{ 'paddingBottom': '60px' }} className="card barchart">
+            <section className="task-manager-cards">
+                <div style={{ 'paddingBottom': '8px' }} className="card barchart task-status-chart">
                     <h3>Task Status Overview</h3>
-                    <TaskStatusChart data={taskStatusData} onRefresh={fetchTaskStatusData} />
+                    <TaskStatusChart 
+                        data={taskStatusData} 
+                        onRefresh={simulateTaskStatusUpdate} 
+                    />
                 </div>
                 <div className="card task-list">
                     <TaskList />
@@ -60,4 +63,4 @@ export default function RoutineTaskManager() {
             </section>
         </>
     );
-} 
+}
