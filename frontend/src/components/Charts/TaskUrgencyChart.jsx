@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function TaskUrgencyChart({ data, onRefresh }) {
+export default function TaskUrgencyChart({ data }) {
 	const urgencyCounts = [
 		data.urgencies['Critical'] || 0,
 		data.urgencies['High'] || 0,
@@ -24,7 +24,7 @@ export default function TaskUrgencyChart({ data, onRefresh }) {
 		labels: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
 		datasets: [
 			{
-				label: 'Ticket Priority',
+				label: 'Ticket Urgency',
 				data: urgencyCounts,
 				backgroundColor: ['#FF0000', '#FF8000', '#FFD700', '#FFFF00'],
 				borderColor: ['#CC0000', '#CC6600', '#CCAD00', '#CCCC00'],
@@ -37,8 +37,7 @@ export default function TaskUrgencyChart({ data, onRefresh }) {
 		responsive: true,
 		maintainAspectRatio: false,
 		plugins: {
-			legend: { position: 'top' },
-			title: { display: true, text: 'Ticket Priorities' },
+			legend: { display: false },
 		},
 		scales: {
 			y: { beginAtZero: true },
@@ -50,17 +49,6 @@ export default function TaskUrgencyChart({ data, onRefresh }) {
 			<div style={{ flex: 1, position: 'relative' }}>
 				<Bar data={chartData} options={options} />
 			</div>
-			<button 
-				style={{ 
-					width: '150px', 
-					marginTop: '16px',
-					alignSelf: 'center'
-				}} 
-				type="action" 
-				onClick={onRefresh}
-			>
-				Refresh
-			</button>
 		</div>
 	);
 }

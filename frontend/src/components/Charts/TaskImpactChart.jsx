@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function TaskImpactChart({ data, onRefresh }) {
+export default function TaskImpactChart({ data }) {
     console.log(JSON.stringify(data));
     const impactCounts = [
         data.impacts['Minor / Localized'] || 0,
@@ -38,8 +38,7 @@ export default function TaskImpactChart({ data, onRefresh }) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { position: 'top' },
-            title: { display: true, text: 'Task Impact Levels' },
+            legend: { display: false },
         },
         scales: {
             y: { beginAtZero: true },
@@ -51,17 +50,6 @@ export default function TaskImpactChart({ data, onRefresh }) {
             <div style={{ flex: 1, position: 'relative' }}>
                 <Bar data={chartData} options={options} />
             </div>
-            <button 
-                style={{ 
-                    width: '150px', 
-                    marginTop: '16px',
-                    alignSelf: 'center'
-                }} 
-                type="action" 
-                onClick={onRefresh}
-            >
-                Refresh
-            </button>
         </div>
     );
 } 
