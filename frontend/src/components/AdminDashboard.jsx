@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import TaskList from "./TaskList";
 import TaskUrgencyChart from "./TaskUrgencyChart";
 import TaskPriorityChart from "./TaskPriorityChart";
 import TaskImpactChart from "./TaskImpactChart";
@@ -57,9 +56,6 @@ export default function AdminDashboard({ userName }) {
 					<h3>Project at Risk</h3>
 					<p>Laptop OS Update</p>
 					<p>8 Days Delay</p>
-				</div>
-				<div className="card task-list">
-					<TaskList />
 				</div>
 			</section>
 		</>

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import Login from "./components/Auth/Login";
 import AdminDashboard from "./components/AdminDashboard";
+import RoutineTaskManager from "./components/RoutineTaskManager";
 
 function App() {
   const [userInfo, setUserInfo] = useState('');
@@ -48,8 +49,9 @@ const AuthenticatedRoutes = ({ name, onLogout }) => {
     <Routes>
       <Route element={<MainLayout userName={name} onLogout={onLogout} />}>
         <Route index element={<AdminDashboard userName={name} />} />
+        <Route path="/routine-tasks" element={<RoutineTaskManager />} />
       </Route>
-    </ Routes>
+    </Routes>
   );
 };
 
