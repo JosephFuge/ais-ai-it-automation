@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TaskList from "./TaskList";
-import TaskStatusChart from "./TaskStatusChart";
+import TaskStatusChart from "./Charts/TaskStatusChart";
 import axios from "axios";
 
 export default function RoutineTaskManager() {

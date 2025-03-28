@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import TaskUrgencyChart from "./TaskUrgencyChart";
-import TaskPriorityChart from "./TaskPriorityChart";
-import TaskImpactChart from "./TaskImpactChart";
+import TaskUrgencyChart from "./Charts/TaskUrgencyChart";
+import TaskPriorityChart from "./Charts/TaskPriorityChart";
+import TaskImpactChart from "./Charts/TaskImpactChart";
 import Chatbot from "./Chatbot";
 import axios from "axios";
 
