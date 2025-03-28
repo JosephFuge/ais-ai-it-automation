@@ -11,7 +11,7 @@ export default function Sidebar({ userName, onLogout }) {
 			<div className="user-profile">
 				<h3>{userName ?? 'Ryan Snow'}</h3>
 				<p>IT Systems Administrator</p>
-				<button onClick={() => onLogout()} className="button">Log Out</button>
+				<button onClick={() => onLogout()} className="button blue-pill">Log Out</button>
 			</div>
 			<nav className="menu">
 				<Link to="/" className={location.pathname === "/" ? "active" : ""}>🏠 Home</Link>

@@ -52,19 +52,8 @@ export default function AdminDashboard({ userName }) {
 					Ticket Support
 				</h1>
 			<section className="dashboard-cards">
-				<div></div>
-				<div className="card stats">
-					<h3>Congratulations!</h3>
-					<div className="chart-value">23</div>
-					<p>tickets closed this week.</p>
-				</div>
 				<div className="card chainlit">
 					<Chatbot />
-				</div>
-				<div className="card stats">
-					<h3>Project at Risk</h3>
-					<p>Laptop OS Update</p>
-					<p>8 Days Delay</p>
 				</div>
 			</section>
 		</>
