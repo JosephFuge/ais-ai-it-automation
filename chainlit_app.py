@@ -27,11 +27,67 @@ Ask the user to close the window, or click on the button to initiate a new chat 
 ticket_message_history = []
 
 @cl.on_chat_start
-def start_chat(): # set user history for chainlit to track messages
+async def start_chat(): # set user history for chainlit to track messages
     cl.user_session.set(
         "message_history",
         [{"role": "system", "content": sys_definition}], 
     )
+
+    actions = [
+        cl.Action(
+            name="file 1",
+            icon="logs",
+            payload={"value": "example_value"},
+            label="run health check #1"
+        ),
+        cl.Action(
+            name="file 2",
+            icon="logs",
+            payload={"value": "example_value"},
+            label="run health check #2"
+        )
+    ]
+
+    await cl.Message(content="Check system health:", actions=actions).send()
+
+@cl.action_callback("file 1")
+async def on_action(action: cl.Action):
+    action_definition = """read the latest logs provided to you. First, determine if the logs describe
+    any errors in the system. If there is no error, indicate the part of the system that was examined and mention that all systems are healthy, and nothing else. If they do describe an error, follow these instructions:
+    1. indicate that there is an error, and determine the severity level.
+    2. explain what the errors are
+    3. indicate where the errors originated
+    4. provide a step-by-step guide to solve them. If applicable, provide code samples.
+    5. do not add more wording or explanations than necessary. Make your response as useful for an admin to know exactly what they should do."""
+    with open('clean_log.txt', 'r') as file:
+        content = file.read()
+        message =  [{'role': 'system', 'content': action_definition},{'role': 'user', 'content': str(content)}]
+    stream = await client.chat.completions.create(messages=message, stream=True, **settings)
+
+    msg = cl.Message(content="")
+    async for part in stream:
+        if token := part.choices[0].delta.content or "":
+            await msg.stream_token(token)
+
+
+@cl.action_callback("file 2")
+async def on_action(action: cl.Action):
+    action_definition = """read the latest logs provided to you. First, determine if the logs describe
+    any errors in the system. If there is no error, indicate the part of the system that was examined and mention that all systems are healthy, and nothing else. If they do describe an error, follow these instructions:
+    1. indicate that there is an error, and determine the severity level.
+    2. explain what the errors are
+    3. indicate where the errors originated
+    4. provide a step-by-step guide to solve them. If applicable, provide code samples.
+    5. do not add more wording or explanations than necessary. Make your response as useful for an admin to know exactly what they should do."""
+    with open('error_log.txt', 'r') as file:
+        content = file.read()
+        message =  [{'role': 'system', 'content': action_definition},{'role': 'user', 'content': str(content)}]
+    stream = await client.chat.completions.create(messages=message, stream=True, **settings)
+
+    msg = cl.Message(content="")
+    async for part in stream:
+        if token := part.choices[0].delta.content or "":
+            await msg.stream_token(token)
 
 @cl.on_chat_end
 def end():

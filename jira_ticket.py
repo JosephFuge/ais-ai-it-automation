@@ -1,13 +1,15 @@
-from openai import OpenAI
+import openai
 import os, requests, json, sys
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 
 load_dotenv()
 
+api_key = os.getenv("OPENAI_API_KEY")
+
 user_content = sys.argv[1]
 
-client = OpenAI()
+client = openai.OpenAI(api_key=api_key)
 
 def create_issue(summary,description,priority,impact,urgency):
     ticket_data = {

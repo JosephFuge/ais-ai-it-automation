@@ -2,8 +2,7 @@
 __pycache__/
 .files/
 logs.txt
-.chainlit/translations/
 .venv
 instructions.txt
 routine.md
-
+chainlit/

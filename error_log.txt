@@ -1,0 +1,79 @@
+@ingestionTime	
+1743134000001
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:09:00.132 | INFO     | infra_monitoring.ec2:check_instance_health:42 | Instance i-0abcd1234efgh5678 status: ok
+@timestamp	
+1743134000123
+
+@ingestionTime	
+1743134065002
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:09:25.476 | INFO     | infra_monitoring.ec2:check_cpu_usage:55 | Instance i-0abcd1234efgh5678 CPU usage: 23%
+@timestamp	
+1743134065450
+
+@ingestionTime	
+1743134121202
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:10:21.210 | INFO     | infra_monitoring.ec2:check_memory_usage:61 | Instance i-0abcd1234efgh5678 Memory usage: 47%
+@timestamp	
+1743134121210
+
+@ingestionTime	
+1743134199000
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:11:09.998 | INFO     | infra_monitoring.ec2:check_disk_usage:78 | Instance i-0abcd1234efgh5678 Disk usage: 83%
+@timestamp	
+1743134199000
+
+@ingestionTime	
+1743134411288
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:12:03.563 | ERROR    | infra_monitoring.ec2:check_disk_usage:87 | [{'instance_id': 'i-0abcd1234efgh5678', 'volume_id': 'vol-0123abcd4567efgh8', 'msg': 'Disk usage critical: 98% used on /dev/xvda1', 'action': 'Alert sent, auto-remediation failed'}] | {"aws_lambda": {"function_name": "ec2-disk-monitor", "function_arn": "arn:aws:lambda:us-east-1:473911225839:function:ec2-disk-monitor", "function_memory_size": "128", "function_request_id": "b4d7c6f1-2c3a-4124-9b7a-0b712b7d54e3"}} Traceback (most recent call last):
+  File "/var/task/infra_monitoring/ec2.py", line 84, in check_disk_usage
+    raise RuntimeError(f"Disk space critically low on {volume_id}")
+RuntimeError: Disk space critically low on vol-0123abcd4567efgh8
+@timestamp	
+1743134411234
+
+@ingestionTime	
+1743134460002
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:13:00.113 | WARNING  | infra_monitoring.alerts:notify_admins:104 | Notification sent to on-call team for instance i-0abcd1234efgh5678 - subject: "Disk Usage Critical"
+@timestamp	
+1743134460110
+
+@ingestionTime	
+1743134523000
+@log	
+473911225839:/aws/lambda/monitoring-agent
+@logStream	
+cloud-infra-monitoring-lambda-1
+@message	
+2025-03-28 04:14:03.220 | INFO     | infra_monitoring.ec2:check_network_throughput:67 | Instance i-0abcd1234efgh5678 Network In: 122 MB, Network Out: 98 MB
+@timestamp	
+1743134523220
