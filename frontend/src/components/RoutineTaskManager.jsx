@@ -1,58 +1,115 @@
 import React, { useState, useEffect } from "react";
 import TaskList from "./TaskList";
-import TaskStatusChart from "./TaskStatusChart";
-import axios from "axios";
+import TaskStatusChart from "./Charts/TaskStatusChart";
 
 export default function RoutineTaskManager() {
+    const [timeframe, setTimeframe] = useState('1h');
+    const default1hRunning = [10, 12, 11, 13, 12];
+    const default1hFailing = [1, 2, 1, 3, 2];
     const [taskStatusData, setTaskStatusData] = useState({
-        running: [0, 0, 0, 0, 0],
-        failing: [0, 0, 0, 0, 0]
+        running: default1hRunning,
+        failing: default1hFailing
     });
 
-    async function fetchTaskStatusData() {
-        try {
-            // In a real application, this would come from your backend
-            // For now, we'll generate some sample data
-            const runningTasks = Math.floor(Math.random() * 10) + 5; // 5-15 tasks
-            const failingTasks = Math.floor(Math.random() * 3); // 0-2 failing tasks
-            
-            setTaskStatusData({
+    function simulateTaskStatusUpdate() {
+        setTaskStatusData(prevData => {
+            // Determine max values based on timeframe
+            const maxRunningTasks = {
+                '1h': 15,
+                '4h': 25,
+                '8h': 35,
+                '12h': 45,
+                '24h': 60
+            }[timeframe];
+
+            const maxFailingTasks = {
+                '1h': 4,
+                '4h': 6,
+                '8h': 8,
+                '12h': 10,
+                '24h': 12
+            }[timeframe];
+
+            // Create a small variation in the data
+            const newRunningTasks = prevData.running.map(value => {
+                if (value > maxRunningTasks) {
+                    return maxRunningTasks;
+                }
+
+                // Randomly adjust by -1, 0, or 1
+                const adjustment = Math.floor(Math.random() * 3) - 1;
+                return Math.max(0, value + adjustment);
+            });
+
+            const newFailingTasks = prevData.failing.map(value => {
+                if (value > maxFailingTasks) {
+                    return maxFailingTasks;
+                }
+
+                // Randomly adjust by -1, 0, or 1
+                const adjustment = Math.floor(Math.random() * 3) - 1;
+                return Math.max(0, value + adjustment);
+            });
+
+            return {
                 running: [
-                    runningTasks - 2,
-                    runningTasks - 1,
-                    runningTasks,
-                    runningTasks + 1,
-                    runningTasks
+                    ...newRunningTasks.slice(1),
+                    newRunningTasks[newRunningTasks.length - 1]
                 ],
                 failing: [
-                    failingTasks,
-                    failingTasks + 1,
-                    failingTasks,
-                    failingTasks + 1,
-                    failingTasks
+                    ...newFailingTasks.slice(1),
+                    newFailingTasks[newFailingTasks.length - 1]
                 ]
-            });
-        } catch (error) {
-            console.error("Error fetching task status data:", error);
+            };
+        });
+    }
+
+    function getMultiplier(selectedTimeframe) {
+        const parsedTimeframe = parseInt(selectedTimeframe.substring(0, selectedTimeframe.indexOf('h')));
+
+        if (parsedTimeframe === 1) {
+            return parsedTimeframe;
+        } else if (parsedTimeframe === 4) {
+            return 2;
+        } else if (parsedTimeframe === 8) {
+            return 3;
+        } else if (parsedTimeframe === 12) {
+            return 4;
+        } else if (parsedTimeframe === 24) {
+            return 5;
         }
     }
 
     useEffect(() => {
-        fetchTaskStatusData();
-        // Refresh data every 5 minutes
-        const interval = setInterval(fetchTaskStatusData, 5 * 60 * 1000);
+        // Set up an interval to update the chart every 3 seconds
+        const interval = setInterval(simulateTaskStatusUpdate, 3000);
+
+        // Clean up the interval when the component unmounts
         return () => clearInterval(interval);
-    }, []);
+    }, [timeframe]); // Add timeframe to dependency array
+
+    const handleTimeframeChange = (newTimeframe) => {
+        setTimeframe(newTimeframe);
+        setTaskStatusData({
+            running: default1hRunning.map(value => value * getMultiplier(newTimeframe)),
+            failing: default1hFailing.map(value => value * getMultiplier(newTimeframe)),
+        });
+        // simulateTaskStatusUpdate();
+    };
 
     return (
         <>
             <header className="topbar">
                 <h2>Routine Task Management</h2>
             </header>
-            <section className="dashboard-cards">
-                <div style={{ 'paddingBottom': '60px' }} className="card barchart">
-                    <h3>Task Status Overview</h3>
-                    <TaskStatusChart data={taskStatusData} onRefresh={fetchTaskStatusData} />
+            <section className="task-manager-cards">
+                <div style={{ 'paddingBottom': '8px' }} className="card barchart task-status-chart">
+                    <TaskStatusChart 
+                        data={taskStatusData} 
+                        onRefresh={simulateTaskStatusUpdate} 
+                        timeframe={timeframe}
+                        onTimeframeChange={handleTimeframeChange}
+                    />
                 </div>
                 <div className="card task-list">
                     <TaskList />
@@ -60,4 +117,4 @@ export default function RoutineTaskManager() {
             </section>
         </>
     );
-} 
+}
